@@ -9,8 +9,6 @@ export const URL = 'https://login.robo2025.com';
 
 //网站内容接口URL
 export const URL1 = 'http://139.199.96.235:9002';
-// export const URL1 = 'http://192.168.3.70:8020';
-// export const LOGIN_URL = 'https://login.robo2025.com';
 
 //验证登录接口URL
 export const LOGIN_URL = URL + '/server/authorize';
@@ -21,9 +19,10 @@ export const REGISTER_URL = URL + '/register';
 //登录接口URL
 export const LOGOUT_URL = URL + '/logout';
 
-// let myHost = "http://frp2.wpcenter.cn:8018";
+// 静态web服务器地址,端口和地址必须要写，80端口可不写
 let myHost = "http://192.168.4.10:8000";
 // let myHost = 'http://66.112.216.3:8000';
+
 //前端登录验证URL
 export const NEXT_URL = myHost+'/#/test';
 
