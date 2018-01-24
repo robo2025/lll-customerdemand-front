@@ -4,7 +4,6 @@ import {connect} from "dva";
 import {withRouter} from "dva/router";
 import "./normal-provide-form.less";
 import {checkFile, fileArr} from "../../utils/tools";
-import {FILE_SERVER} from "../../constant/config";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -203,7 +202,7 @@ class NormalProvideForm extends React.Component {
                   <Icon type="file-word"/>
                   {this.state.file_url
                     ?
-                    <a href={FILE_SERVER + this.state.file_url}>{this.state.file_url}</a> :
+                    <a href={this.state.file_url}>{this.state.file_url}</a> :
                     '无'
                   }
                 </div>
