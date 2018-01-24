@@ -13,7 +13,6 @@
     }
   },
   "ignoreMomentLocale": true,
-  "hash": true,
   "disableCSSModules": true,
   "browserslist": [
     "> 1%",
