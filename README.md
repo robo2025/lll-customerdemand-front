@@ -1,5 +1,5 @@
-# requirements-management-system
-需求管理系统后台
+# customerdemand-front
+需求管理系统前台
 
 ## 前序准备
 
