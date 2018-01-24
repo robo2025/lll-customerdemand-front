@@ -1,0 +1,66 @@
+.container {
+	width: 1200px;
+	margin: 0 auto;
+	height: 30px;
+	line-height: 30px;
+	position: relative;
+}
+.welcome {
+	font-size:13px;
+	color: #61687c;
+}
+.topBar-right,.login-register  {
+	float: right;
+	padding:0 8px;
+	transition: all 0.5s;
+	position: relative;
+	z-index:999;
+	position: absolute;
+	top: 0;
+	right:0;
+}
+.topBar-right a,.login-register a {
+	color: #61687c;
+	font-size:13px;
+}
+.topBar-right span,.login-register span {
+	font-size: 13px;
+	padding: 0 5px;
+	color: #61687c;
+	
+}
+.topBar-right a:hover,.login-register a:hover,.topBar-right a:focus,.login-register a:focus {
+	text-decoration: none;
+	color:#1052AD;
+}
+/* .login-register:hover {
+	box-shadow: 0 0 16px rgba(0,0,0,0.3);
+} */
+.topBar-right:hover {
+	background-color: #fff;
+}
+.topBar-right:hover .user-login,.topBar-right:hover .user-login>span {
+	color:#1052AD;
+}
+.topBar-right:hover .logo-out {
+	display: block;
+}
+.ant-dropdown-menu {
+	text-align:center;
+	line-height:18px;
+	font-size:12px;
+}
+.logo-out {
+	color: #61687c;
+	font-size:12px;
+	text-align:center;
+	display: none;
+	cursor:pointer;
+}
+.arrow {
+	transform:rotate(360deg);
+	transition:all 0.3s;
+}
+.topBar-right:hover .arrow {
+	transform:rotate(180deg);
+}

@@ -1,0 +1,22 @@
+{
+  "entry": "src/index.js",
+  "extraBabelPlugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
+  ],
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr"
+      ]
+    }
+  },
+  "ignoreMomentLocale": true,
+  "hash": true,
+  "disableCSSModules": true,
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}

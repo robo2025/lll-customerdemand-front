@@ -1,0 +1,67 @@
+/* 面板样式 */
+body {
+  background-color: #F2F2F5 !important;
+}
+.ly-panel {
+  position: relative;
+  background-color: #fff;
+  //padding: 1.5rem 2rem;
+  .absolute{
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  //头部
+  .panel-header {
+    background-color: #fff;
+    padding-bottom:1.5rem;
+    border-bottom: 1px solid #ddd;
+    > h2 {
+      font-size: 1.5rem;
+    }
+    .panel-extra {
+      > span{
+        display: inline-block;
+        margin-right: 0.7rem;
+        font-size:0.8rem;
+        color:#999;
+      }
+
+    }
+    .list-info {
+      list-style: none;
+      margin:0;
+      padding-left: 0;
+      .duration,.type {
+        font-size: 1.0rem;
+        margin-right: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .budget{
+        font-weight: 700;
+        color: #ff6600;
+        margin:1rem 0;
+        font-size: 1.2rem;
+      }
+      b{
+        font-weight: normal;
+        margin-right: 3px;
+      }
+    }
+  }
+  //身体
+  .panel-body{
+    margin: 1.5rem 0;
+    padding: 0;
+    >h2 {
+      font-size: 1.5rem;
+      margin-bottom:1.5rem;
+    }
+    >p {
+      text-indent:2em;
+      line-height:2;
+    }
+  }
+  //脚部
+}
