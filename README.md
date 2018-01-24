@@ -1,4 +1,5 @@
 # customerdemand-front
+
 需求管理系统前台
 
 ## 前序准备
@@ -61,9 +62,6 @@
 
       //登录接口URL
       export const LOGOUT_URL = URL + '/logout';
-
-      // 静态web服务器地址
-      let myHost = "http://localhost:8000";
     ```
 
 3. 打包编译
@@ -84,3 +82,9 @@
     ```
 
 5. 将打包好的文件放置到web服务器下
+
+## Docker
+
+```bash
+docker run --restart always -p 9090:80 playniuniu/robo-customerdemand-front
+```
