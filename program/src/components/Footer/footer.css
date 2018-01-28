@@ -7,10 +7,15 @@
 .footer-left {
 	text-align:left;
 }
+@media screen and (min-width: 750px){
+  .footer-center {
+    width: 50%;
+    padding-top:20px;
+    padding-left:50px;
+  }
+}
 .footer-center {
-	width: 50%;
-	padding-top:20px;
-	padding-left:50px;
+  width: 50%;
 }
 .footer-right {
 	text-align: right;
@@ -29,15 +34,17 @@
 	margin-top:20px;
 }
 .footer-logo {
-	width: 150px;
+  width: 100%;
+	max-width: 150px;
 	margin-top:8px;
 }
 .footer-logo img {
 	width: 100%;
 }
 .footer-erweima {
-	width: 75px;
-	display: inline-block;	
+  width: 80%;
+	max-width: 75px;
+	display: inline-block;
 }
 .footer-erweima img {
 	width: 100%;

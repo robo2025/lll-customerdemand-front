@@ -37,8 +37,8 @@ class PublishPage extends React.Component {
         <Header/>
         <MyBreadcrumb/>
         <div className='ly-container'>
-          <Steps current={0} size='small' progressDot={customDot}>
-            <Step  title="发布需求"/>
+          <Steps current={0} size='small' style={{maxWidth:1000,margin:'0 auto'}}>
+            <Step title="发布需求"/>
             <Step title="平台审核需求"/>
             <Step title="发布成功"/>
             <Step title="选择服务商家方案"/>

@@ -70,7 +70,7 @@ export class Panel extends React.Component {
 export const PanelHeader = ({data}) => (
   data?
     (<div className='panel-header'>
-    <h2>{data.title}</h2>
+    <h2 title={data.title}>{data.title}</h2>
     <ul className='list-info'>
       <li className='budget'><b>预算</b>：￥{data.budget}</li>
       <li className='duration'><b>需求期限</b>：{getExceptCycle(data.except_cycle)}</li>

@@ -129,7 +129,7 @@ class NormalRequestForm extends React.Component {
       },
     };
     const styles = {
-      marginLeft: '1.5rem'
+
     };
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -171,7 +171,7 @@ class NormalRequestForm extends React.Component {
               required: true, message: '请完善您的需求描述',
             }],
           })(
-            <TextArea style={{minHeight: 48, marginLeft: '1.5rem'}} placeholder="不能低于30个字符[必填]" rows={6}/>
+            <TextArea style={{minHeight: 48}} placeholder="不能低于30个字符[必填]" rows={6}/>
           )}
         </FormItem>
         <FormItem
@@ -197,13 +197,10 @@ class NormalRequestForm extends React.Component {
               required: true, message: '请输入预算金额',
             }],
           })(
-            <span style={styles}>
               <Input
                 type="number"
-                style={{width: '92%', marginRight: '1%'}}
+                suffix='元'
               />
-              <span>元</span>
-            </span>
           )}
         </FormItem>
         <FormItem
