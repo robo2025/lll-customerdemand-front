@@ -1,5 +1,5 @@
 .container {
-	width: 1200px;
+	max-width: 1200px;
 	margin: 0 auto;
 	height: 30px;
 	line-height: 30px;
@@ -27,7 +27,7 @@
 	font-size: 13px;
 	padding: 0 5px;
 	color: #61687c;
-	
+
 }
 .topBar-right a:hover,.login-register a:hover,.topBar-right a:focus,.login-register a:focus {
 	text-decoration: none;
