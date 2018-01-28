@@ -143,7 +143,6 @@ class NormalProvideForm extends React.Component {
       },
     };
     const styles = {
-      marginLeft: '1.5rem',
       ...style2
     };
 
@@ -241,7 +240,11 @@ class NormalProvideForm extends React.Component {
           viewOnly ?
             null :
             <FormItem
-              wrapperCol={{span: 12, offset: 3}}
+              wrapperCol={{
+                xs: {span: 12, offset: 0},
+                sm: {span: 12, offset: 3},
+                md: {span: 12, offset: 3},
+              }}
             >
               <Button type="primary" htmlType="submit" style={styles}>
                 提交审核

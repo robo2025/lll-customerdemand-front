@@ -72,7 +72,7 @@ class NormalRequestForm extends React.Component {
 
   //上传文件状态改变时处理
   onChange(info) {
-    console.log("文件状态：", info.file);
+    // console.log("文件状态：", info.file);
     if (info.file.status !== 'uploading') {
       // console.log("--",info.file, info.fileList);
     }
@@ -261,7 +261,11 @@ class NormalRequestForm extends React.Component {
           )}
         </FormItem>
         <FormItem
-          wrapperCol={{span: 12, offset: 3}}
+          wrapperCol={{
+            xs: {span: 24,offset:0},
+            sm: {span: 12,offset:3},
+            md: {span: 19,offset:3}
+          }}
         >
           <Button type="primary" htmlType="submit" style={styles}>
             提交审核
