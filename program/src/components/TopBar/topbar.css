@@ -13,7 +13,6 @@
 	float: right;
 	padding:0 8px;
 	transition: all 0.5s;
-	position: relative;
 	z-index:9991;
 	position: absolute;
 	top: 0;

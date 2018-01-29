@@ -23,12 +23,13 @@ class NormalRequestForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.beforeUpload = this.beforeUpload.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       name: "file",
       action: "//up.qiniu.com",
       file: {},
-      file_url: ''
+      file_url: '',
+      fileList: []
     }
     // this.normFile = this.normFile.bind(this);
   }
@@ -36,7 +37,7 @@ class NormalRequestForm extends React.Component {
   //表单提交处理
   handleSubmit(e) {
     e.preventDefault();
-    console.log("提交表单", this.state);
+    // console.log("提交表单", this.state);
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.user_id = window.sessionStorage.getItem('user_id');
@@ -46,7 +47,7 @@ class NormalRequestForm extends React.Component {
           type: 'demand/postDemand',
           payload: values
         });
-      //页面跳转到我的页面
+        //页面跳转到我的页面
         this.props.history.push("/me");
       }
     });
@@ -54,7 +55,7 @@ class NormalRequestForm extends React.Component {
 
   //表单内容改变处理
   handleSelectChange(value) {
-    console.log(value);
+    // console.log(value);
     this.props.form.setFieldsValue({
       note: `Oh,boy, ${value === 'male' ? 'man' : 'this must Required'}!`,
     });
@@ -62,7 +63,6 @@ class NormalRequestForm extends React.Component {
 
   //上传文件ina处理验证文件类型
   beforeUpload(file) {
-    // console.log("文件类型",file.type, file);
     this.setState({file: file});
     if (!checkFile(file.name, fileArr)) {
       message.error(`${file.name} 暂不支持上传`);
@@ -71,18 +71,23 @@ class NormalRequestForm extends React.Component {
   }
 
   //上传文件状态改变时处理
-  onChange(info) {
-    // console.log("文件状态：", info.file);
-    if (info.file.status !== 'uploading') {
-      // console.log("--",info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} 文件上传成功`);
-      this.setState({file_url: info.file.response.key});
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} 文件上传失败`);
-    }
-  }
+  handleChange(info) {
+    let fileList = info.fileList;
+    // 1. Limit the number of uploaded files
+    fileList = fileList.slice(-1);
+    // 2. read from response and show file link
+    const _this = this;
+    fileList = fileList.map((file) => {
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} 文件上传成功`);
+        _this.setState({file_url: info.file.response.key});
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} 文件上传失败`);
+      }
+      return file;
+    });
+    this.setState({fileList});
+  };
 
   componentDidMount() {
     // console.log("表单Props", this.props);
@@ -90,7 +95,7 @@ class NormalRequestForm extends React.Component {
       type: 'upload/fetch'
     });
 
-  //  上传10条假数据
+    //  上传10条假数据
     /*const fakeData = {
       company: "测试公司",
       desc: "测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情",
@@ -128,9 +133,7 @@ class NormalRequestForm extends React.Component {
         md: {span: 19},
       },
     };
-    const styles = {
-
-    };
+    const styles = {};
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem
@@ -197,10 +200,10 @@ class NormalRequestForm extends React.Component {
               required: true, message: '请输入预算金额',
             }],
           })(
-              <Input
-                type="number"
-                suffix='元'
-              />
+            <Input
+              type="number"
+              suffix='元'
+            />
           )}
         </FormItem>
         <FormItem
@@ -216,11 +219,12 @@ class NormalRequestForm extends React.Component {
               name={this.state.name}
               action={this.state.action}
               beforeUpload={this.beforeUpload}
-              onChange={this.onChange}
+              onChange={this.handleChange}
+              fileList={this.state.fileList}
               data={
                 {
                   token: this.props.upload_token,
-                  key: this.state.file.name
+                  key: `/res/${this.state.file.lastModified}-ly-${this.state.file.name}`
                 }
               }
             >
@@ -262,9 +266,9 @@ class NormalRequestForm extends React.Component {
         </FormItem>
         <FormItem
           wrapperCol={{
-            xs: {span: 24,offset:0},
-            sm: {span: 12,offset:3},
-            md: {span: 19,offset:3}
+            xs: {span: 24, offset: 0},
+            sm: {span: 12, offset: 3},
+            md: {span: 19, offset: 3}
           }}
         >
           <Button type="primary" htmlType="submit" style={styles}>

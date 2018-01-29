@@ -21,6 +21,7 @@ class NormalProvideForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.beforeUpload = this.beforeUpload.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.state = {
       name: "file",
@@ -28,7 +29,8 @@ class NormalProvideForm extends React.Component {
       desc: '',
       file_url: '',
       action: "//up.qiniu.com",
-      file: {}
+      file: {},
+      fileList:[]
     }
   }
 
@@ -73,18 +75,23 @@ class NormalProvideForm extends React.Component {
   }
 
   //上传文件状态改变时处理
-  onChange(info) {
-    console.log("文件状态：", info.file);
-    if (info.file.status !== 'uploading') {
-      // console.log("--",info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} 文件上传成功`);
-      this.setState({file_url: info.file.response.key});
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} 文件上传失败`);
-    }
-  }
+  handleChange(info) {
+    let fileList = info.fileList;
+    // 1. Limit the number of uploaded files
+    fileList = fileList.slice(-1);
+    // 2. read from response and show file link
+    const _this = this;
+    fileList = fileList.map((file) => {
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} 文件上传成功`);
+        _this.setState({file_url: info.file.response.key});
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} 文件上传失败`);
+      }
+      return file;
+    });
+    this.setState({fileList});
+  };
 
   componentWillReceiveProps(nextProps, nextState) {
     if (nextProps.reqSolution) {
@@ -221,11 +228,12 @@ class NormalProvideForm extends React.Component {
                   name={this.state.name}
                   action={this.state.action}
                   beforeUpload={this.beforeUpload}
-                  onChange={this.onChange}
+                  onChange={this.handleChange}
+                  fileList={this.state.fileList}
                   data={
                     {
                       token: this.props.upload_token,
-                      key: this.state.file.name
+                      key: `/solution/${this.state.file.lastModified}-ly-${this.state.file.name}`
                     }
                   }
                 >
