@@ -41,7 +41,7 @@ class MePage extends React.Component {
   }
 
   render() {
-    // console.log("Me", this.props);
+    console.log("Me", this.props);
     //我的需求列表
     let myDemandsList = this.props.demand.myDemandList;
     //我的方案列表
@@ -53,18 +53,20 @@ class MePage extends React.Component {
         <TopBar data={this.props.user ? this.props.user.userinfo : {}}/>
         <Header/>
         <MyBreadcrumb/>
-        <Spin spinning={this.props.loading.global}>
           <Content>
             <Tabs defaultActiveKey={activeTabKey ? activeTabKey : "1"} onChange={this.handleClick}>
               <TabPane tab="我发布的需求" key="1">
-                <PublishedPage data={myDemandsList}/>
-              </TabPane>
+                <Spin spinning={this.props.loading.models.demand}>
+                  <PublishedPage data={myDemandsList}/>
+                </Spin>
+              </TabPane>              
               <TabPane tab="我提供的解决方案" key="2">
-                <SolutionPage data={mySolutionsList}/>
+                <Spin spinning={this.props.loading.models.solutions}>
+                  <SolutionPage data={mySolutionsList}/>
+                </Spin>
               </TabPane>
             </Tabs>
           </Content>
-        </Spin>
         <Footer/>
       </div>
     )
