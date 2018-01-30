@@ -57,9 +57,14 @@ export class Panel extends React.Component {
           args.viewOnly === "on" ?
             null
             :
-            <Button className='absolute' onClick={() => {
-              this.props.history.push("provide?page="+args.page+"&req_id="+this.props.reqId);
-            }}>我要提方案</Button>
+            <Button 
+              className='absolute' 
+              onClick={() => {
+                this.props.history.push("provide?page="+args.page+"&req_id="+this.props.reqId);
+              }}
+              disabled={(currReqData.user_id==sessionStorage.getItem('user_id'))?true:false}
+              title={(currReqData.user_id==sessionStorage.getItem('user_id'))?'你不能给自己的需求提方案':''}
+            >我要提方案</Button>
         }
 
       </div>
