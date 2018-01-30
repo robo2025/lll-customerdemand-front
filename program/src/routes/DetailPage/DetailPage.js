@@ -1,5 +1,5 @@
 import React from "react";
-import {Layout, Button, message, Modal} from "antd";
+import {Layout, Button, message, Modal,Spin} from "antd";
 import {Panel} from "../../components/Panel/Panel";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -108,33 +108,36 @@ class DetailPage extends React.Component {
 
   render() {
     let args = this.state.args;
-    // console.log("详情页", this.props);
+    let routeLoading = this.props.loading.models.demand;
+    // console.log("详情页", routeLoading);    
     return (
       <div className='detail-page'>
         <TopBar/>
         <Header/>
         <MyBreadcrumb/>
-        <Content className='req-content'>
-          {
-            this.props.match.path === '/me/req' ?
-              <ButtonGroup style={{float: 'right'}}>
-                <Button onClick={this.handleEditReq.bind(this,args.req_id)}>修改需求</Button>
-                <Button onClick={this.handleDeleteReq.bind(this,args.req_id)}>撤销需求</Button>
-              </ButtonGroup> : null
-          }
-          <Panel reqId={args.req_id} data={this.props.demand.detail}/>
-        </Content>
-          {
-            this.props.match.path === '/me/req' ?
-              <Content className='solution-content'>
-                <div className='solutions-wrap'>
-                  <h2 className='title'>已提供方案列表</h2>
-                  <SolutionList data={this.props.me.reqSolutions}/>
-                </div>
-              </Content>
-              :
-              null
-          }
+        <Spin spinning={routeLoading}>
+          <Content className='req-content'>
+            {
+              this.props.match.path === '/me/req' ?
+                <ButtonGroup style={{float: 'right'}}>
+                  <Button onClick={this.handleEditReq.bind(this,args.req_id)}>修改需求</Button>
+                  <Button onClick={this.handleDeleteReq.bind(this,args.req_id)}>撤销需求</Button>
+                </ButtonGroup> : null
+            }
+            <Panel reqId={args.req_id} data={this.props.demand.detail}/>
+          </Content>
+        </Spin>
+        {
+          this.props.match.path === '/me/req' ?
+            <Content className='solution-content'>
+              <div className='solutions-wrap'>
+                <h2 className='title'>已提供方案列表</h2>
+                <SolutionList data={this.props.me.reqSolutions}/>
+              </div>
+            </Content>
+            :
+            null
+        }
         <Footer/>
       </div>
     )

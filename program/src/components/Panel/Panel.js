@@ -1,9 +1,9 @@
 import React from "react";
-import "./panel.less";
-import {Button} from 'antd';
+import {Button,Icon} from 'antd';
 import {withRouter} from "dva/router";
 import {queryString,timeStampToDate} from "../../utils/tools";
 import {connect} from "dva";
+import "./panel.less";
 
 function getReqType(code) {
   switch (code){
@@ -94,9 +94,18 @@ export const PanelBody = ({data}) => (
   data?
     (<div className='panel-body'>
     <h2>需求描述</h2>
-    <p>
+    <div>
       {data.desc}
-    </p>
+      <div style={{ marginTop: '1rem' }}>
+        附件列表：
+        <Icon type="file-word" />
+        {data.file_url
+          ?
+          <a href={data.file_url} download={(data.file_url.split('-ly-'))[1]}>{(data.file_url.split('-ly-'))[1]}</a> :
+            '无'
+        }
+        </div>
+    </div>
   </div>)
     :null
 );
