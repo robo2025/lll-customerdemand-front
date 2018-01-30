@@ -21,15 +21,6 @@ class ProvidePlanPage extends React.Component{
     }
   }
 
-  componentDidMount(){
-    this.props.dispatch({
-      type: "me/fetchMyReqSolution",
-      reqId: this.state.args.req_id,
-      solutionId:this.state.args.solution_id
-    });
-
-  }
-
   render(){
     let args = queryString.parse(window.location.href);
     let currReqData = this.props.demandList.filter((val)=>{

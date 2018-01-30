@@ -8,7 +8,7 @@ let instance = axios.create();
 
 // Override timeout default for the library
 // Now all requests will wait 2.5 seconds before timing out
-instance.defaults.timeout = 1000;
+instance.defaults.timeout = 2500;
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
@@ -29,7 +29,7 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
   // 请求错误服务器返回的信息
-  console.log("服务器错误:",error.response);
+  // console.log("服务器错误",Object.keys(error));
   let response = error.response;
   if(response.status === 500){
     console.log("服务器错误：",response);

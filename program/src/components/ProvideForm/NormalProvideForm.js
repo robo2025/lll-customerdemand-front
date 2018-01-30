@@ -120,7 +120,6 @@ class NormalProvideForm extends React.Component {
     // 改变方案描述内容
     let _this = this;
     let showContent = (this.props.viewOnly === 'on' || this.props.viewOnly === 'edit');  //是否填充内容
-  
     // console.log("表单Props", this.props);
     this.props.dispatch({
       type: 'upload/fetch'
