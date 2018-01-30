@@ -10,6 +10,11 @@
       "extraBabelPlugins": [
         "dva-hmr"
       ]
+    },
+     "production": {
+      "extraBabelPlugins": [
+        "transform-remove-console"
+      ]
     }
   },
   "ignoreMomentLocale": true,

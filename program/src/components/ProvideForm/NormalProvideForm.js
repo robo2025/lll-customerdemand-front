@@ -22,7 +22,6 @@ class NormalProvideForm extends React.Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.beforeUpload = this.beforeUpload.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.state = {
       name: "file",
       title: '',
@@ -104,6 +103,11 @@ class NormalProvideForm extends React.Component {
       let currSolutionTitle = currSolution ? currSolution.title : '';   //方案标题
       this.setState({title: currSolutionTitle});
       let currSolutionDesc = currSolution ? currSolution.desc : ''; //方案描述
+      if(currSolutionDesc){
+        console.log('方案描述',currSolutionDesc);    
+        // this.handleSelectChange(currSolutionDesc);        
+      }
+      // this.handleSelectChange(currSolutionDesc);      
       this.setState({desc: currSolutionDesc});
       let file_url = currSolution ? currSolution.file_url : '';   //方案url
       this.setState({file_url: file_url});
@@ -116,13 +120,7 @@ class NormalProvideForm extends React.Component {
     // 改变方案描述内容
     let _this = this;
     let showContent = (this.props.viewOnly === 'on' || this.props.viewOnly === 'edit');  //是否填充内容
-    if (showContent) {
-      setTimeout(function () {
-        // console.log("componentDidMount",_this.state);
-        _this.handleSelectChange(_this.state.desc);
-      }, 1000);
-    }
-
+  
     // console.log("表单Props", this.props);
     this.props.dispatch({
       type: 'upload/fetch'
@@ -176,10 +174,10 @@ class NormalProvideForm extends React.Component {
               {getFieldDecorator('desc', {
                 rules: [{
                   required: true, message: '请完善您的需求描述',
-                  initialValue: showContent ? this.state.desc : ''
                 }],
+                initialValue: showContent ? this.state.desc : ''
               })(
-                <Input placeholder="简短描述您的需求" style={styles} {...inputStyle}/>
+                <Input style={styles} {...inputStyle}/>
               )}
             </FormItem>
             :
@@ -190,8 +188,8 @@ class NormalProvideForm extends React.Component {
               {getFieldDecorator('desc', {
                 rules: [{
                   required: true, message: '请完善您的需求描述',
-                  initialValue: '默认值'
                 }],
+                initialValue: showContent ? this.state.desc : ''
               })(
                 <TextArea style={{minHeight: 48, ...styles}} rows={6} {...inputStyle}/>
               )}

@@ -122,7 +122,7 @@ class MySolutionPage extends React.Component {
             用户需求
           </PageHeader>
           <MySolutionList data={solutionList}/>
-          <PageHeader>
+          <PageHeader style={{marginTop:'1rem'}}>
             我的提案
             <small style={{marginLeft:10,fontSize:'1rem'}}>{solution?getSolutionStatus(solution.status):''}</small>
           </PageHeader>
