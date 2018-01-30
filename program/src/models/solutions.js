@@ -6,7 +6,11 @@ export default {
 
   state: {
     solutionsList: [],
-    reqSolution:{}
+    reqSolution:{},
+    res:{
+      code: '',
+      msg: ''
+    },
   },
 
   effects: {
@@ -27,18 +31,15 @@ export default {
       });
     },
     *postSolution({payload},{call,put}){
-      const response = yield call(postSolution,payload);
-      console.log("提交方案相应",response);
-      if(response.rescode !== '10000'){
-        Modal.error({
-          title: '错误信息',
-          content: response.msg.split(":")[1],
-        });
-        return;
-      }
       yield put({
         type: 'save',
-        payload: payload,
+        response:{rescode:'',msg:''}
+      })
+      const response = yield call(postSolution,payload);
+      console.log("提交方案相应",response);
+      yield put({
+        type: 'save',
+        response:response
       })
     },
     *removeMySolution({solutionId},{call,put}){
@@ -52,9 +53,10 @@ export default {
 
   reducers: {
     save(state,action){
+      console.log("reducer action:",action);
       return {
         ...state,
-        solutionsList: [...state.solutionsList,action.payload],
+        res:{code:action.response.rescode,msg:action.response.msg}
       };
     },
     saveAll(state, action) {

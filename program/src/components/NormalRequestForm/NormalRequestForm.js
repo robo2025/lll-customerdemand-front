@@ -1,13 +1,13 @@
 import React from "react";
-import {Form, Select, Input, Button, Radio, Upload, Icon, message} from 'antd';
-import {fileArr, checkFile} from "../../utils/tools";
-import {connect} from "dva";
-import {withRouter} from "dva/router"
+import { Form, Select, Input, Button, Radio, Upload, Icon, message, Modal } from 'antd';
+import { fileArr, checkFile } from "../../utils/tools";
+import { connect } from "dva";
+import { withRouter } from "dva/router"
 import "./normal-request-form.less";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const {TextArea} = Input;
+const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 
@@ -15,7 +15,11 @@ let upload_token = '';  //上传文件到七牛云的token
 
 @withRouter
 @connect(
-  state => ({...state.upload})
+  state => ({
+     ...state.upload,
+     res: state.demand.res,
+     roteLoading: state.loading.models.demand
+  }),
 )
 class NormalRequestForm extends React.Component {
   constructor(props) {
@@ -29,7 +33,8 @@ class NormalRequestForm extends React.Component {
       action: "//up.qiniu.com",
       file: {},
       file_url: '',
-      fileList: []
+      fileList: [],
+      isSubmit: false
     }
     // this.normFile = this.normFile.bind(this);
   }
@@ -47,8 +52,7 @@ class NormalRequestForm extends React.Component {
           type: 'demand/postDemand',
           payload: values
         });
-        //页面跳转到我的页面
-        this.props.history.push("/me");
+        this.setState({isSubmit:true})
       }
     });
   }
@@ -63,7 +67,7 @@ class NormalRequestForm extends React.Component {
 
   //上传文件ina处理验证文件类型
   beforeUpload(file) {
-    this.setState({file: file});
+    this.setState({ file: file });
     if (!checkFile(file.name, fileArr)) {
       message.error(`${file.name} 暂不支持上传`);
       return false;
@@ -80,20 +84,37 @@ class NormalRequestForm extends React.Component {
     fileList = fileList.map((file) => {
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 文件上传成功`);
-        _this.setState({file_url: info.file.response.key});
+        _this.setState({ file_url: info.file.response.key });
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} 文件上传失败`);
       }
       return file;
     });
-    this.setState({fileList});
+    this.setState({ fileList });
   };
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('nextprops', nextProps, nextState);
+    if (!nextProps.res.code || !this.state.isSubmit) {
+      return;
+    } else if (nextProps.res.code === '10000') {
+      //页面跳转到我的页面
+      this.props.history.push("/me");
+    } else {
+      Modal.error({
+        title: '错误信息',
+        content: nextProps.res.msg.split(":")[1],
+      });
+    }
+  }
 
   componentDidMount() {
     // console.log("表单Props", this.props);
     this.props.dispatch({
       type: 'upload/fetch'
     });
+
+
 
     //  上传10条假数据
     /*const fakeData = {
@@ -121,16 +142,16 @@ class NormalRequestForm extends React.Component {
 
   render() {
     upload_token = this.props.upload_token;
-    const {getFieldDecorator} = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
-        xs: {span: 5},
-        sm: {span: 3},
+        xs: { span: 5 },
+        sm: { span: 3 },
       },
       wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 12},
-        md: {span: 19},
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 19 },
       },
     };
     const styles = {};
@@ -141,9 +162,9 @@ class NormalRequestForm extends React.Component {
           label="需求名称"
         >
           {getFieldDecorator('title', {
-            rules: [{required: true, message: '请简短描述您的需求!'}],
+            rules: [{ required: true, message: '请简短描述您的需求!' }],
           })(
-            <Input placeholder="简短描述您的需求" style={styles}/>
+            <Input placeholder="简短描述您的需求" style={styles} />
           )}
         </FormItem>
         <FormItem
@@ -151,7 +172,7 @@ class NormalRequestForm extends React.Component {
           label="需求类型"
         >
           {getFieldDecorator('req_type', {
-            rules: [{required: true, message: '请选择需求类型!'}],
+            rules: [{ required: true, message: '请选择需求类型!' }],
           })(
             <Select
               placeholder="请选择"
@@ -174,7 +195,7 @@ class NormalRequestForm extends React.Component {
               required: true, message: '请完善您的需求描述',
             }],
           })(
-            <TextArea style={{minHeight: 48}} placeholder="不能低于30个字符[必填]" rows={6}/>
+            <TextArea style={{ minHeight: 48 }} placeholder="不能低于30个字符[必填]" rows={6} />
           )}
         </FormItem>
         <FormItem
@@ -229,7 +250,7 @@ class NormalRequestForm extends React.Component {
               }
             >
               <Button>
-                <Icon type="upload"/> 上传附件
+                <Icon type="upload" /> 上传附件
               </Button>
             </Upload>
           )}
@@ -239,9 +260,9 @@ class NormalRequestForm extends React.Component {
           label="联系人"
         >
           {getFieldDecorator('link_man', {
-            rules: [{required: true, message: '请完善联系人姓名!'}],
+            rules: [{ required: true, message: '请完善联系人姓名!' }],
           })(
-            <Input placeholder="不低于2个字符" style={styles}/>
+            <Input placeholder="不低于2个字符" style={styles} />
           )}
         </FormItem>
         <FormItem
@@ -249,9 +270,9 @@ class NormalRequestForm extends React.Component {
           label="公司名称"
         >
           {getFieldDecorator('company', {
-            rules: [{required: true, message: '请完善公司名称!'}],
+            rules: [{ required: true, message: '请完善公司名称!' }],
           })(
-            <Input placeholder="不低于3个字符" style={styles}/>
+            <Input placeholder="不低于3个字符" style={styles} />
           )}
         </FormItem>
         <FormItem
@@ -259,19 +280,19 @@ class NormalRequestForm extends React.Component {
           label="手机号码"
         >
           {getFieldDecorator('mobile', {
-            rules: [{required: true, message: '请完善联系电话!'}],
+            rules: [{ required: true, message: '请完善联系电话!' }],
           })(
-            <Input style={styles}/>
+            <Input style={styles} />
           )}
         </FormItem>
         <FormItem
           wrapperCol={{
-            xs: {span: 24, offset: 0},
-            sm: {span: 12, offset: 3},
-            md: {span: 19, offset: 3}
+            xs: { span: 24, offset: 0 },
+            sm: { span: 12, offset: 3 },
+            md: { span: 19, offset: 3 }
           }}
         >
-          <Button type="primary" htmlType="submit" style={styles}>
+          <Button type="primary" htmlType="submit" style={styles} loading={this.props.roteLoading}>
             提交审核
           </Button>
         </FormItem>

@@ -46,6 +46,7 @@ class MePage extends React.Component {
     let myDemandsList = this.props.demand.myDemandList;
     //我的方案列表
     let mySolutionsList = this.props.solutions.solutionsList;
+    console.log('mysolutionlist',mySolutionsList)
     //默认展示那个tab页面
     let activeTabKey = queryString.parse(this.props.location.search).tab;
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import {Form, Select, Input, Button, Radio, Upload, Icon, message} from 'antd';
+import {Form, Select, Input, Button, Radio, Upload, Icon, message, Modal} from 'antd';
 import {connect} from "dva";
 import {withRouter} from "dva/router";
 import "./normal-provide-form.less";
@@ -13,7 +13,13 @@ const RadioButton = Radio.Button;
 
 @withRouter
 @connect(
-  state => ({solutionsList: state.solutions.solutionsList, ...state.upload, reqSolutions: state.me.reqSolutions})
+  state => ({
+    solutionsList: state.solutions.solutionsList, 
+    ...state.upload, 
+    reqSolutions: state.me.reqSolutions,
+    res:state.solutions.res,
+    roteLoading:state.loading.models.solutions,
+  })
 )
 class NormalProvideForm extends React.Component {
   constructor(props) {
@@ -29,7 +35,23 @@ class NormalProvideForm extends React.Component {
       file_url: '',
       action: "//up.qiniu.com",
       file: {},
-      fileList:[]
+      fileList:[],
+      isSubmit:false
+    }
+  }
+
+  componentWillUpdate(nextProps,nextState){
+    console.log('nextprops',nextProps,nextState);
+    if(!nextProps.res.code || !this.state.isSubmit){
+      return;
+    }else if(nextProps.res.code === '10000'){
+       //页面跳转
+        this.props.history.push("/me?tab=2");
+    }else{
+      Modal.error({
+        title: '错误信息',
+        content: nextProps.res.msg.split(":")[1],
+      });
     }
   }
 
@@ -48,10 +70,7 @@ class NormalProvideForm extends React.Component {
           payload: values
         });
 
-        //页面跳转
-        // console.log("发布需求页面",this.props);
-        this.props.history.push("/me?tab=2");
-
+        this.setState({isSubmit:true})
       }
     });
   }
@@ -133,8 +152,9 @@ class NormalProvideForm extends React.Component {
     const showContent = (this.props.viewOnly === 'on' || this.props.viewOnly === 'edit');  //是否填充内容
     const inputStyle = (this.props.viewOnly === 'on') ? {readOnly: true} : {}; //可读状态将input设置不可写
     const style2 = (this.props.viewOnly === 'on') ? {border: 'none', borderRadius: 0, minHeight: 'auto'} : {};
-    console.log("NormalProvideForm:", this.props.data);
 
+    console.log("发布需求页面props",this.props);
+    
     const formItemLayout = {
       labelCol: {
         xs: {span: 5},
@@ -251,7 +271,7 @@ class NormalProvideForm extends React.Component {
                 md: {span: 12, offset: 3},
               }}
             >
-              <Button type="primary" htmlType="submit" style={styles}>
+              <Button type="primary" htmlType="submit" style={styles} loading={this.props.roteLoading}>
                 提交审核
               </Button>
             </FormItem>

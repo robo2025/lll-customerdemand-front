@@ -9,16 +9,24 @@ export default {
     total:0,
     offset:0,
     limit:15,
-    detail:{}
+    detail:{},
+    res:{
+      code: '',
+      msg: ''
+    },
   },
 
   effects: {
     *postDemand({payload},{call,put}){
+      yield put({
+        type: 'save',
+        response:{rescode:'',msg:''}
+      })
       const response = yield call(postDemand,payload);
       yield put({
         type: 'save',
-        payload: response,
-      });
+        response:response
+      })
     },
     *fetchDemandDetail({reqId},{call,put}){
       console.log("fetchDemandDetail",reqId)
@@ -60,7 +68,7 @@ export default {
     save(state, action) {
       return {
         ...state,
-        demandList: [...state.demandList,...action.payload.data],
+        res:{code:action.response.rescode,msg:action.response.msg}
       };
     },
     saveAll(state, action) {
