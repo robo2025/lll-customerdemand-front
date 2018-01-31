@@ -34,6 +34,10 @@ export function jumpToVerify(){
   window.location.href = VERIFY_PAGE
 }
 
+export function jumpToPage(url){
+  window.location.href = LOGIN_URL + `?next=${encodeURIComponent(url)}`;  
+}
+
 //解析url
 export const queryString = {
   parse:function (url) {

@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from 'js-cookie';
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import MyBreadcrumb from "../../components/MyBreadcrumb/MyBreadcrumb";
@@ -6,6 +7,7 @@ import WrappedNormalRequestForm from "../../components/NormalRequestForm/NormalR
 import {Steps, Popover} from 'antd';
 import {connect} from "dva";
 import TopBar from "../../components/TopBar/TopBar";
+import {login} from '../../services/user';
 const Step = Steps.Step;
 
 
@@ -27,6 +29,9 @@ class PublishPage extends React.Component {
 
   componentDidMount(){
     // console.log("props",this.props);
+    if(!Cookies.get('access_token')){
+      login();
+    }
   }
 
   render() {
