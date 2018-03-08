@@ -111,7 +111,7 @@ class ListItem extends React.Component {
   }
 
   render() {
-    // console.log("listItem",this.props);
+    console.log("listItem",this.props);
     let data = this.props.data;
 
     //将服务器代码转换成需求类型
@@ -189,7 +189,7 @@ class ListItem extends React.Component {
             {/*<span className={`status ${this.props.viewOnly?'':'active'}`} style={{float: 'right'}}>{getReqStatus(data.status)}</span>*/}
 
           </h2>
-          <span className='price'>￥{data.budget}</span>
+          <span className='price' style={{color:'#0275D8'}}>{(this.props.match.path === '/me')?data.budget:'价格面议'}</span>
           <span className='limit'>需求期限：{getExceptCycle(data.except_cycle)}</span>
         </div>
         <div className='bd demand-info'>

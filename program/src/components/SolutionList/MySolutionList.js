@@ -186,7 +186,7 @@ class ListItem extends React.Component {
             </span>
             <span
               className={`type price`}
-              style={{float: 'right'}}
+              style={{float: 'right',color:'#0275D8'}}
             >
               报价: &nbsp;￥{data.budget}
             </span>

@@ -1,6 +1,7 @@
 .header {
   /*background-color: #2AC575;*/
-  background-color: #212529;
+  background-color: #0275D8;
+  /* background-color: #212529; */
   color: #fff;
   margin-bottom: 1rem;
   border: none;
@@ -57,7 +58,7 @@
 }
 
 .navbar-collapse .nav > li {
-  background-color: #212529;
+  background-color: #0275D8;
   z-index: 999;
   padding-left: 1.2rem;
 }

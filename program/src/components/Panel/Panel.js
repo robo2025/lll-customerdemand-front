@@ -77,7 +77,7 @@ export const PanelHeader = ({data}) => (
     (<div className='panel-header'>
     <h2 title={data.title}>{data.title}</h2>
     <ul className='list-info'>
-      <li className='budget'><b>预算</b>：￥{data.budget}</li>
+      <li className='budget'><b style={{color:'#0275D8'}}>价格面议</b></li>
       <li className='duration'><b>需求期限</b>：{getExceptCycle(data.except_cycle)}</li>
       <li className='type'><b>需求类型</b>：{getReqType(data.req_type)}</li>
     </ul>

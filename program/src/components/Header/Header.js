@@ -29,7 +29,7 @@ export default class Header extends React.Component {
       <header>
         <Navbar collapseOnSelect className="header">
           <Navbar.Header>
-            <img src={require('../Footer/test1.png')} style={{height: '60px', float: 'left', marginLeft: '0px'}}/>
+            <img src={require('../Footer/logo-white.png')} style={{height: '60px', float: 'left', marginLeft: '0px'}}/>
             <Navbar.Brand>
               <a href='#'>智能方案中心</a>
             </Navbar.Brand>
