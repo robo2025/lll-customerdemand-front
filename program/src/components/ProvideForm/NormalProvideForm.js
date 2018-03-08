@@ -250,7 +250,7 @@ class NormalProvideForm extends React.Component {
                   data={
                     {
                       token: this.props.upload_token,
-                      key: `/solution/${this.state.file.lastModified}-ly-${this.state.file.name}`
+                      key: `customer/demand/attachment/${this.state.file.lastModified}-ly-${this.state.file.name}`
                     }
                   }
                 >

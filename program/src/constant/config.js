@@ -11,6 +11,8 @@ export const URL = 'https://login.robo2025.com';
 //export const URL1 = 'http://139.199.96.235:9002';
 export const URL1 = 'http://api-customerdemand.robo2025.com';
 
+export const UPLOAD_URL = 'http://123.206.92.160:9020';
+
 //验证登录接口URL
 export const LOGIN_URL = URL + '/server/authorize';
 
