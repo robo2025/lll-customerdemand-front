@@ -202,7 +202,11 @@ class NormalRequestForm extends React.Component {
           {...formItemLayout}
           label="希望完成时间"
         >
-          {getFieldDecorator('except_cycle')(
+          {getFieldDecorator('except_cycle',{
+             rules: [{
+              required: true, message: '请选择希望完成时间',
+            }],
+          })(
             <RadioGroup style={styles}>
               <RadioButton value="1">7天内</RadioButton>
               <RadioButton value="2">1-3个月</RadioButton>
@@ -280,9 +284,9 @@ class NormalRequestForm extends React.Component {
           label="手机号码"
         >
           {getFieldDecorator('mobile', {
-            rules: [{ required: true, message: '请完善联系电话!' }],
+            rules: [{ required: true, message: '请完善联系电话!' }, { len: 11, message: '请输入正确的手机号码' }],
           })(
-            <Input style={styles} />
+            <Input type='tel' style={styles} />
           )}
         </FormItem>
         <FormItem
