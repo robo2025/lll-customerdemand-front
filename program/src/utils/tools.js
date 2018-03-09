@@ -11,7 +11,8 @@ export function verifyLogin(successUrl) {
     let access_token = paramas.access_token.split("#/")[0];
     console.log("token:", access_token);
     Cookies.set("access_token", access_token, { expires: 7 });
-    window.location.href = successUrl ? successUrl : HOME_PAGE;
+    const nextUrl = window.localStorage.getItem('nextUrl'); //从localStorage读取跳转url
+    window.location.href = nextUrl ? nextUrl : HOME_PAGE;
     return;
   } else {
     console.log("不存在token");

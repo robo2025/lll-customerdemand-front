@@ -34,6 +34,7 @@ export function logout() {
 
 //登录操作
 export function login() {
+  window.localStorage.setItem('nextUrl',window.location.href);
   // console.log("登录URL--------------",LOGIN_URL + `?next=${encodeURIComponent(VERIFY_PAGE)}`);
   window.location.href = LOGIN_URL + `?next=${encodeURIComponent(VERIFY_PAGE)}`;
 }
