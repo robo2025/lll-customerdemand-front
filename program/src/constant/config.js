@@ -8,7 +8,6 @@ export const URL = 'https://login.robo2025.com';
 // export const URL = 'http://192.168.3.70:8011';
 
 //网站内容接口URL
-//export const URL1 = 'http://139.199.96.235:9002';
 export const URL1 = 'http://api-customerdemand.robo2025.com';
 
 export const UPLOAD_URL = 'http://123.206.92.160:9020';

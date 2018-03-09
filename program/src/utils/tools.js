@@ -1,57 +1,56 @@
-import {LOGIN_URL, NEXT_URL,HOME_PAGE,VERIFY_PAGE} from "../constant/config";
 import Cookies from "js-cookie";
+import { LOGIN_URL, NEXT_URL, HOME_PAGE, VERIFY_PAGE } from "../constant/config";
 
 //验证是否登录
-export function verifyLogin() {
-  console.log("下面进入验证程序");
+export function verifyLogin(successUrl) {
   let href = window.location.href;
-  console.log("页面地址:",href);
+  console.log("页面地址:", href);
   let paramas = queryString.parse(href);
   /* 判断url是否有access_token,如果有则将其存储到cookie */
-  if(paramas.access_token){
+  if (paramas.access_token) {
     let access_token = paramas.access_token.split("#/")[0];
-    console.log("token:",access_token);
-    Cookies.set("access_token",access_token, { expires: 7 });
-    window.location.href = HOME_PAGE;
+    console.log("token:", access_token);
+    Cookies.set("access_token", access_token, { expires: 7 });
+    window.location.href = successUrl ? successUrl : HOME_PAGE;
     return;
-  }else{
+  } else {
     console.log("不存在token");
     window.location.href = LOGIN_URL + `?next=${VERIFY_PAGE}`;
   }
   //读取cookie，如果没有access_token,则跳转到登录页面
- /* if (!Cookies.get('access_token')) {
-    console.log('用户未登录');
-    // window.location.href = REGISTER_URL + '?next='+ LOGIN_URL + "?next=" + NEXT_URL;
-    window.location.href = LOGIN_URL + '?next=' + NEXT_URL;
-  } else {
-    console.log('用户已登录',Cookies.get('access_token'));
-    // window.location.href = HOME_PAGE;
-  }*/
+  /* if (!Cookies.get('access_token')) {
+     console.log('用户未登录');
+     // window.location.href = REGISTER_URL + '?next='+ LOGIN_URL + "?next=" + NEXT_URL;
+     window.location.href = LOGIN_URL + '?next=' + NEXT_URL;
+   } else {
+     console.log('用户已登录',Cookies.get('access_token'));
+     // window.location.href = HOME_PAGE;
+   }*/
 }
 
 // 未登录状态跳转到验证页面
-export function jumpToVerify(){
+export function jumpToVerify() {
   window.location.href = VERIFY_PAGE
 }
 
-export function jumpToPage(url){
-  window.location.href = LOGIN_URL + `?next=${encodeURIComponent(url)}`;  
+export function jumpToPage(url) {
+  window.location.href = LOGIN_URL + `?next=${encodeURIComponent(url)}`;
 }
 
 //解析url
 export const queryString = {
-  parse:function (url) {
+  parse: function (url) {
     let parseObj = {};
-    if(!url){
+    if (!url) {
       return false;
     }
     let argStr = '';
-    if(url.split('?').length>1){
+    if (url.split('?').length > 1) {
       argStr = url.split('?')[1];
       let argArr = argStr.split("&");
-      argArr.forEach((val)=>{
+      argArr.forEach((val) => {
         let args = val.split("=");
-        if(args.length>1){
+        if (args.length > 1) {
           parseObj[args[0]] = args[1];
         }
       })
@@ -62,11 +61,11 @@ export const queryString = {
 
 
 //验证文件类型
-export const fileArr = ['pdf','doc','xls','ppt','docx','xlsx','pptx'];
-export function checkFile(filename,fileArr){
+export const fileArr = ['pdf', 'doc', 'xls', 'ppt', 'docx', 'xlsx', 'pptx'];
+export function checkFile(filename, fileArr) {
   let postfix = filename.split(".")[1];
-  for(let i=0,fileLen = fileArr.length;i<fileLen;i++){
-    if(postfix === fileArr[i]){
+  for (let i = 0, fileLen = fileArr.length; i < fileLen; i++) {
+    if (postfix === fileArr[i]) {
       return true;
     }
   }
@@ -85,5 +84,5 @@ export function timeStampToDate(timeStamp) {
     M: date.getMinutes(),
     S: date.getSeconds()
   };
-  return {...time,timeStr:`${time.year}-${time.month}-${time.day} ${time.H}:${time.M}:${time.S}`}
+  return { ...time, timeStr: `${time.year}-${time.month}-${time.day} ${time.H}:${time.M}:${time.S}` }
 }

@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import {URL,LOGOUT_URL,HOME_PAGE,LOGIN_URL,VERIFY_PAGE,REGISTER_URL} from "../constant/config"
+import {verifyLogin} from "../utils/tools";
 
 export async function query(params) {
   let access_token = Cookies.get("access_token");
