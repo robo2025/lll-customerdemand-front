@@ -224,10 +224,11 @@ class ListItem extends React.Component {
 
 /* 暴露需求列表组件 */
 
-const DemandList = ({ demandList, page }) => {
+const DemandList = ({ demandList, page, viewOnly }) => {
   console.log('demandList 参数', { ...arguments }, demandList, page);
   return (
     <List
+    viewOnly={viewOnly}
     data={demandList} 
     page={page}
     />

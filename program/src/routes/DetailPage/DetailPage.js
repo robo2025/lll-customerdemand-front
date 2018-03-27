@@ -102,7 +102,7 @@ class DetailPage extends React.Component {
       },
     });
   }
-  
+
 
   render() {
     const args = this.state.args;
@@ -112,32 +112,38 @@ class DetailPage extends React.Component {
       <div className="detail-page">
         <Header />
         <MyBreadcrumb />
-        <Spin spinning={routeLoading}>
+        <Spin spinning={routeLoading} className="ly-spin">
           <Content className="req-content">
             {
               this.props.match.path === '/me/req' ?
                 (
-<ButtonGroup style={{ float: 'right' }}>
-                  <Button onClick={this.handleEditReq.bind(this, args.req_id)}>修改需求</Button>
-                  <Button onClick={this.handleDeleteReq.bind(this, args.req_id)}>撤销需求</Button>
-</ButtonGroup>
-) : null
+                  <ButtonGroup style={{ float: 'right' }}>
+                    <Button onClick={this.handleEditReq.bind(this, args.req_id)}>修改需求</Button>
+                    <Button onClick={this.handleDeleteReq.bind(this, args.req_id)}>撤销需求</Button>
+                  </ButtonGroup>
+                ) : null
             }
-            <Panel reqId={args.req_id} data={this.props.demand.detail} />
+            <Panel
+              reqId={args.req_id}
+              data={this.props.demand.detail}
+              style={{ minHeight: 600 }}
+            />
           </Content>
         </Spin>
         {
           this.props.match.path === '/me/req' ?
             (
-<Content className="solution-content">
-              <div className="solutions-wrap">
-                <h2 className="title">已提供方案列表</h2>
-                <SolutionList data={this.props.me.reqSolutions} />
-              </div>
-</Content>
-)
+              <Content className="solution-content">
+                <div className="solutions-wrap">
+                  <h2 className="title">已提供方案列表</h2>
+                  <SolutionList data={this.props.me.reqSolutions} />
+                </div>
+              </Content>
+            )
             :
-            null
+            (
+              <div style={{ minHeight: 100 }} />
+            )
         }
         <Footer />
       </div>

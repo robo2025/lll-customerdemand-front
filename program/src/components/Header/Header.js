@@ -84,10 +84,10 @@ export default class Header extends React.Component {
                         <ul className="dropdown-menu">
                           <MenuItem>
                             <img
-                              src={require('./robo-grey.png')}
+                              src={require('./user-icon.svg')}
                               alt="头像"
-                              with={50}
-                              height={50}
+                              with={60}
+                              height={60}
                               style={{ marginTop: 10 }}
                             />
                             <div style={{ margin: '10px 0' }}>{userInfo.username}</div>
