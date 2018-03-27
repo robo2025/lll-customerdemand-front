@@ -1,38 +1,38 @@
-import axios from "axios";
-import {login} from "../services/user";
-import {Modal} from 'antd';
+import axios from 'axios';
+import { Modal } from 'antd';
+import { login } from '../services/user';
 
 // Create an instance using the config defaults provided by the library
 // At this point the timeout config value is `0` as is the default for the library
-let instance = axios.create();
+const instance = axios.create();
 
 // Override timeout default for the library
 // Now all requests will wait 2.5 seconds before timing out
 instance.defaults.timeout = 2500;
 
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use((config) => {
   // Do something before request is sent
   // console.log("--每次请求配置：", config);
   // message.loading('加载中数据中...');
   return config;
-}, function (error) {
+}, (error) => {
   // Do something with request error
   // console.log("--每次请求配置错误：", error);
   return Promise.reject(error);
 });
 
 // Add a response interceptor
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use((response) => {
   // Do something with response data
   // message.destroy();
   return response;
-}, function (error) {
+}, (error) => {
   // 请求错误服务器返回的信息
   // console.log("服务器错误",Object.keys(error));
-  let response = error.response;
-  if(response.status === 500){
-    console.log("服务器错误：",response);
+  const response = error.response;
+  if (response.status === 500) {
+    console.log('服务器错误：', response);
     Modal.error({
       title: '错误',
       content: '很不幸，这是一个坏消息，他表示服务器挂掉了...',
@@ -48,7 +48,6 @@ axios.interceptors.response.use(function (response) {
   * */
   if ((response.data.rescode >> 0) > 20000) {
     login();
-
   }
 
   return Promise.reject(error);

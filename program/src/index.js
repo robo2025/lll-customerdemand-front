@@ -1,8 +1,8 @@
 import dva from 'dva';
+import createLoading from 'dva-loading';
+import './utils/interceptors';
 import './index.css';
-import "./normalize.css";
-import createLoading from 'dva-loading'
-import "./utils/interceptors";
+import './normalize.css';
 
 // 1. Initialize
 const app = dva({
@@ -12,11 +12,11 @@ const app = dva({
 });
 
 
-
 // 2. Plugins
 // app.use({});
 
 // 3. Model
+app.model(require('./models/user').default);
 app.model(require('./models/demand').default);
 
 // 4. Router

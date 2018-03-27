@@ -9,6 +9,36 @@
   padding: 0.5rem 0;
 }
 
+.me{
+  position: relative;
+}
+.me:hover .dropdown-menu{
+  visibility: visible;
+  opacity: 1;  
+  top: 45px;
+  transition: all 0.25s ease;
+}
+.me:hover .caret{
+  transform: rotate(180deg);
+  transition: all 0.25s ease;
+}
+.me .caret{
+  margin-left: 8px;
+  border-width: 6px;
+}
+.me .dropdown-menu{
+  position: absolute;
+  display: block;  
+  visibility: hidden;
+  opacity: 0;
+  min-width: 160px;
+  right: 3px;
+
+}
+.me .dropdown-menu a{
+  text-align: center;
+}
+
 .navbar-header{
   cursor: pointer;
 }
