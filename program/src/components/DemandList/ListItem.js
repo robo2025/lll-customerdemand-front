@@ -1,62 +1,33 @@
 import React from 'react';
 import { Button, Modal, message, Badge } from 'antd';
 import { withRouter } from 'dva/router';
-import QueueAnim from 'rc-queue-anim';
-import { timeStampToDate, handleServerMsgObj } from '../../utils/tools';
-import './demand-list.less';
+import { timeStampToDate } from '../../utils/tools';
 
 const { confirm } = Modal;
 
-// 需求列表组件
-const List = ({ data, dispatch, viewOnly, page }) => {
-  // console.log("List组件:",data);
-  return (
-    <div className="demand-list">
-      <QueueAnim
-        delay={300}
-        duration={1000}
-        type="bottom"
-        appear
-        className="queue-simple"
-        animConfig={[
-          { opacity: [1, 0], translateY: [0, 50] },
-          { opacity: [1, 0], translateY: [0, -50] },
-        ]}
-      >
-        {
-          data.map((val, idx) => {
-            return (
-              <ListItem
-                key={idx}
-                index={idx}
-                viewOnly={viewOnly}
-                data={val}
-                dispatch={dispatch}
-                page={page}
-              />
-            );
-          })
-        }
-      </QueueAnim>
-    </div>
-  );
-};
 
 /* 单个需求组件 */
 @withRouter
 class ListItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.jumpToDetail = this.jumpToDetail.bind(this);
+    this.handleDeleteReq = this.handleDeleteReq.bind(this);
+    this.handleEditReq = this.handleEditReq.bind(this);
+  }
+
   // 跳转到对应需求详情页
-  jumpToDetail = (reqId) => {
-    const { page } = this.props;
+  jumpToDetail(req_id) {
+    const page = this.props.page;
     if (this.props.viewOnly) {
-      this.props.history.push('/me/req?viewOnly=on&page=' + page + '&req_id=' + reqId);
+      this.props.history.push('/me/req?viewOnly=on&page=' + page + '&req_id=' + req_id);
     } else {
-      this.props.history.push('/detail?page=' + page + '&req_id=' + reqId);
+      this.props.history.push('/detail?page=' + page + '&req_id=' + req_id);
     }
   };
 
   // 根据需求id删除需求
-  handleDeleteReq = (reqId, e) => {
+  handleDeleteReq(reqId, e) {
     e.stopPropagation();
 
     // 弹窗：确定删除执行事件
@@ -64,10 +35,9 @@ class ListItem extends React.Component {
       this.props.dispatch({
         type: 'demand/deleteDemand',
         reqId,
-        success: () => { message.success('删除成功'); },
-        error: (res) => { handleServerMsgObj(res.msg); },
       });
       console.log('你要删除' + reqId + '号需求');
+      message.success('删除成功');
     }
 
     // 弹窗：取消删除执行事件
@@ -77,10 +47,9 @@ class ListItem extends React.Component {
 
     this.showDeleteConfirm(deleteReq.bind(this, reqId), cancelDelete);
   }
-  
 
   // 根据需求id编辑需求
-  handleEditReq = (reqId, e) => {
+  handleEditReq(reqId, e) {
     e.stopPropagation();
     console.log('你要编辑' + reqId + '号需求');
     Modal.info({
@@ -114,7 +83,8 @@ class ListItem extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    console.log('listItem', this.props);
+    const data = this.props.data;
 
     // 将服务器代码转换成需求类型
     function getReqType(code) {
@@ -221,16 +191,3 @@ class ListItem extends React.Component {
     );
   }
 }
-
-/* 暴露需求列表组件 */
-
-const DemandList = ({ demandList, page }) => {
-  console.log('demandList 参数', { ...arguments }, demandList, page);
-  return (
-    <List
-    data={demandList} 
-    page={page}
-    />
-  );
-};
-export default DemandList;

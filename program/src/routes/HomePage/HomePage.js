@@ -1,4 +1,4 @@
-import { Layout, Pagination, Spin } from 'antd';
+import { Pagination, Spin } from 'antd';
 import { connect } from 'dva';
 import React from 'react';
 import Header from '../../components/Header/Header';
@@ -8,13 +8,10 @@ import MyBreadcrumb from '../../components/MyBreadcrumb/MyBreadcrumb';
 import './home-page.less';
 
 
-@connect(
-  state => ({
-    userinfo: state.user.userinfo,
-    demandList: state.demand.demandList,
-    total: state.demand.total,
-    loading: state.loading,
-  })
+@connect(({ demand, loading }) => ({
+  demand,
+  loading,
+})
 )
 class HomePage extends React.Component {
   constructor(props) {
@@ -44,17 +41,19 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { loading, userinfo } = this.props;
+    const { demand, loading } = this.props;
+    const { demandList, total } = demand;
+
     return (
       <div className="home-page">
         <Spin spinning={loading.models.demand} size="large">
           <Header />
           <MyBreadcrumb />
-          <DemandList demandList={this.props.demandList} page={this.state.page} />
+          <DemandList demandList={demandList} page={this.state.page} />
           <Pagination
             defaultCurrent={1}
             defaultPageSize={15}
-            total={this.props.total}
+            total={total}
             onChange={this.pageChange}
           />
           <Footer />

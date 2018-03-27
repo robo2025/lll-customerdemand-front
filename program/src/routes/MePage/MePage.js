@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Cookies from 'js-cookie';
 import { connect } from 'dva';
 import { Tabs, Layout, Spin } from 'antd';
 import Header from '../../components/Header/Header';
@@ -25,7 +26,7 @@ class MePage extends React.Component {
  
 
   componentDidMount() {
-    const userId = window.sessionStorage.getItem('user_id');
+    const userId = Cookies.getJSON('userinfo').id;
     // 请求我的方案列表
     this.props.dispatch({
       type: 'solutions/getMySolutions',

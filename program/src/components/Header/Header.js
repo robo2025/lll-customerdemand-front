@@ -1,12 +1,13 @@
 import React from 'react';
-import { Navbar, Nav, NavItem, Clearfix, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import { connect } from 'dva';
+import { withRouter } from 'dva/router';
 import { logout, login, register } from '../../services/user';
 import { queryString } from '../../utils/tools';
 import './header.css';
 
-
+@withRouter
 @connect()
 export default class Header extends React.Component {
   constructor(props) {
@@ -27,8 +28,8 @@ export default class Header extends React.Component {
     });
   }
 
-   // 注册账号
-   registerAccount = () => {
+  // 注册账号
+  registerAccount = () => {
     register();
   }
 
@@ -42,13 +43,18 @@ export default class Header extends React.Component {
     login();
   }
 
+  // 跳转到我的中心
+  jumpToMycenter = () => {
+    this.props.history.push('/me');
+  }
+
 
   render() {
     const { data } = this.props;
 
     const userInfo = Cookies.getJSON('userinfo');
-    console.log('props', userInfo);
-    
+    console.log('props', this.props);
+
 
     return (
       <header>
@@ -69,33 +75,36 @@ export default class Header extends React.Component {
               <NavItem eventKey={1} href="#/publish">
                 发布需求
               </NavItem>
-              <NavItem eventKey={2} href="#/me" className="me">
+              <NavItem eventKey={2} className="me-center" onClick={this.jumpToMycenter}>
                 个人中心<span className="caret" />
-                {
-                  userInfo ?
-                    (
-                      <ul className="dropdown-menu open ">
-                        <MenuItem>
-                          <img 
-                            src={require('./avatar_grey.png')}
-                            alt="头像"
-                            with={30}
-                            height={30}
-                          />
-                        </MenuItem>                                              
-                        <MenuItem>{userInfo.username}</MenuItem>                        
-                        <MenuItem divider />
-                        <MenuItem onClick={this.logoutAccout}>登出</MenuItem>
-                      </ul>
-                    )
-                    :
-                    (
-                      <ul className="dropdown-menu open ">
-                        <MenuItem onClick={this.registerAccount}>注册</MenuItem>
-                        <MenuItem onClick={this.loginAccount}>登录</MenuItem>
-                      </ul>
-                    )
-                }
+                <div className="user-box">
+                  {
+                    userInfo ?
+                      (
+                        <ul className="dropdown-menu">
+                          <MenuItem>
+                            <img
+                              src={require('./robo-grey.png')}
+                              alt="头像"
+                              with={50}
+                              height={50}
+                              style={{ marginTop: 10 }}
+                            />
+                            <div style={{ margin: '10px 0' }}>{userInfo.username}</div>
+                          </MenuItem>
+                          <MenuItem divider />
+                          <MenuItem onClick={this.logoutAccout}>登出</MenuItem>
+                        </ul>
+                      )
+                      :
+                      (
+                        <ul className="dropdown-menu open ">
+                          <MenuItem onClick={this.registerAccount}>注册</MenuItem>
+                          <MenuItem onClick={this.loginAccount}>登录</MenuItem>
+                        </ul>
+                      )
+                  }
+                </div>
               </NavItem>
             </Nav>
           </Navbar.Collapse>

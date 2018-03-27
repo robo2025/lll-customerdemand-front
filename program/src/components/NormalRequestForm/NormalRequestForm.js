@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
+import { connect } from 'dva';
+import { withRouter } from 'dva/router';
+import Cookies from 'js-cookie';
 import { Form, Select, Input, Button, Radio, Upload, Icon, message, Modal } from 'antd';
-import { fileArr, checkFile } from "../../utils/tools";
-import { connect } from "dva";
-import { withRouter } from "dva/router"
-import "./normal-request-form.less";
+import { fileArr, checkFile } from '../../utils/tools';
+import './normal-request-form.less';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -11,14 +12,14 @@ const { TextArea } = Input;
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 
-let upload_token = '';  //上传文件到七牛云的token
+let upload_token = ''; // 上传文件到七牛云的token
 
 @withRouter
 @connect(
   state => ({
-     ...state.upload,
-     res: state.demand.res,
-     roteLoading: state.loading.models.demand
+    ...state.upload,
+    res: state.demand.res,
+    roteLoading: state.loading.models.demand,
   }),
 )
 class NormalRequestForm extends React.Component {
@@ -29,35 +30,51 @@ class NormalRequestForm extends React.Component {
     this.beforeUpload = this.beforeUpload.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      name: "file",
-      action: "//up.qiniu.com",
+      name: 'file',
+      action: '//up.qiniu.com',
       file: {},
       file_url: '',
       fileList: [],
-      isSubmit: false
-    }
+      isSubmit: false,
+    };
     // this.normFile = this.normFile.bind(this);
   }
 
-  //表单提交处理
+
+  componentDidMount() {
+    // console.log("表单Props", this.props);
+    this.props.dispatch({
+      type: 'upload/fetch',
+    });
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('nextprops', nextProps, nextState);
+    if (nextProps.res.code === '10000') {
+      // 页面跳转到我的页面
+      this.props.history.push('/me');
+    }
+  }
+
+  // 表单提交处理
   handleSubmit(e) {
     e.preventDefault();
     // console.log("提交表单", this.state);
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.user_id = window.sessionStorage.getItem('user_id');
+        values.user_id = Cookies.getJSON('userinfo').id;
         values.file_url = this.state.file_url;
         console.log('Received values of form: ', values);
         this.props.dispatch({
           type: 'demand/postDemand',
-          payload: values
+          payload: values,
         });
-        this.setState({isSubmit:true})
+        this.setState({ isSubmit: true });
       }
     });
   }
 
-  //表单内容改变处理
+  // 表单内容改变处理
   handleSelectChange(value) {
     // console.log(value);
     this.props.form.setFieldsValue({
@@ -65,16 +82,16 @@ class NormalRequestForm extends React.Component {
     });
   }
 
-  //上传文件ina处理验证文件类型
+  // 上传文件ina处理验证文件类型
   beforeUpload(file) {
-    this.setState({ file: file });
+    this.setState({ file });
     if (!checkFile(file.name, fileArr)) {
       message.error(`${file.name} 暂不支持上传`);
       return false;
     }
   }
 
-  //上传文件状态改变时处理
+  // 上传文件状态改变时处理
   handleChange(info) {
     let fileList = info.fileList;
     // 1. Limit the number of uploaded files
@@ -91,53 +108,6 @@ class NormalRequestForm extends React.Component {
       return file;
     });
     this.setState({ fileList });
-  };
-
-  componentWillUpdate(nextProps, nextState) {
-    console.log('nextprops', nextProps, nextState);
-    if (!nextProps.res.code || !this.state.isSubmit) {
-      return;
-    } else if (nextProps.res.code === '10000') {
-      //页面跳转到我的页面
-      this.props.history.push("/me");
-    } else {
-      Modal.error({
-        title: '错误信息',
-        content: nextProps.res.msg.split(":")[1],
-      });
-    }
-  }
-
-  componentDidMount() {
-    // console.log("表单Props", this.props);
-    this.props.dispatch({
-      type: 'upload/fetch'
-    });
-
-
-
-    //  上传10条假数据
-    /*const fakeData = {
-      company: "测试公司",
-      desc: "测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情测试内容详情",
-      except_cycle: "1",
-      file_url: "",
-      link_man: "3l先生",
-      mobile: "13574488306",
-      req_type: "other",
-      user_id: window.sessionStorage.getItem('user_id')
-    };
-    for(let i =0;i<10;i++){
-      this.props.dispatch({
-        type: 'demand/postDemand',
-        payload: {
-          ...fakeData,
-          title:`这是一条测试需求，编号${i+1}`,
-          budget:Math.random()*1000>>0
-        }
-      });
-    }*/
-
   }
 
   render() {
@@ -202,8 +172,8 @@ class NormalRequestForm extends React.Component {
           {...formItemLayout}
           label="希望完成时间"
         >
-          {getFieldDecorator('except_cycle',{
-             rules: [{
+          {getFieldDecorator('except_cycle', {
+            rules: [{
               required: true, message: '请选择希望完成时间',
             }],
           })(
@@ -227,7 +197,7 @@ class NormalRequestForm extends React.Component {
           })(
             <Input
               type="number"
-              suffix='元'
+              suffix="元"
             />
           )}
         </FormItem>
@@ -249,7 +219,7 @@ class NormalRequestForm extends React.Component {
               data={
                 {
                   token: this.props.upload_token,
-                  key: `customer/demand/attachment/${this.state.file.lastModified}-ly-${this.state.file.name}`
+                  key: `customer/demand/attachment/${this.state.file.lastModified}-ly-${this.state.file.name}`,
                 }
               }
             >
@@ -286,14 +256,14 @@ class NormalRequestForm extends React.Component {
           {getFieldDecorator('mobile', {
             rules: [{ required: true, message: '请完善联系电话!' }, { len: 11, message: '请输入正确的手机号码' }],
           })(
-            <Input type='tel' style={styles} />
+            <Input type="tel" style={styles} />
           )}
         </FormItem>
         <FormItem
           wrapperCol={{
             xs: { span: 24, offset: 0 },
             sm: { span: 12, offset: 3 },
-            md: { span: 19, offset: 3 }
+            md: { span: 19, offset: 3 },
           }}
         >
           <Button type="primary" htmlType="submit" style={styles} loading={this.props.roteLoading}>

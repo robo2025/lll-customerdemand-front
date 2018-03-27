@@ -1,20 +1,20 @@
-import {query} from "../services/upload";
+import { query } from '../services/upload';
 
 export default {
   namespace: 'upload',
 
-  state:{
-    upload_token:''
+  state: {
+    upload_token: '',
   },
 
   effects: {
-    *fetch(_,{call,put}){
+    *fetch(_, { call, put }) {
       const response = yield call(query);
       yield put({
         type: 'save',
         payload: response,
       });
-    }
+    },
   },
 
   reducers: {
@@ -26,5 +26,5 @@ export default {
         upload_token: action.payload.upload_token,
       };
     },
-  }
-}
+  },
+};
