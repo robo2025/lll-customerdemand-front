@@ -59,11 +59,12 @@ export default class Header extends React.Component {
     return (
       <header>
         <Navbar collapseOnSelect className="header">
-          <Navbar.Header onClick={() => { window.location.hash = '#/'; }}>
+          <Navbar.Header>
             <img
               src={require('../Footer/logo-white.png')}
               style={{ height: '60px', float: 'left', marginLeft: '0px' }}
               alt="图片"
+              onClick={() => { window.location.href = '//robo2025.com'; }}
             />
             <Navbar.Brand>
               <a href="#">智能方案中心</a>
