@@ -8,7 +8,7 @@ export async function postDemand(data) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'post',
-    url: URL1 + '/api/reqs',
+    url: URL1 + '/reqs',
     headers: {
       Authorization: access_token,
     },
@@ -29,7 +29,7 @@ export async function getAllDemand(offset, limit) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'get',
-    url: URL1 + `/api/reqs?offset=${offset}&limit=${limit}`,
+    url: URL1 + `/reqs?offset=${offset}&limit=${limit}`,
     headers: {
       Authorization: access_token,
     },
@@ -50,7 +50,7 @@ export async function getMyDemand(userId) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'get',
-    url: URL1 + `/api/users/${userId}/reqs`,
+    url: URL1 + `/users/${userId}/reqs`,
     headers: {
       Authorization: access_token,
     },
@@ -70,7 +70,7 @@ export async function removeDemand(reqId) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'DELETE',
-    url: URL1 + `/api/reqs/${reqId}`,
+    url: URL1 + `/reqs/${reqId}`,
     headers: {
       Authorization: access_token,
     },
@@ -90,7 +90,7 @@ export async function getDemandDetail(reqId) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'get',
-    url: URL1 + `/api/reqs/${reqId}`,
+    url: URL1 + `/reqs/${reqId}`,
     headers: {
       Authorization: access_token,
     },

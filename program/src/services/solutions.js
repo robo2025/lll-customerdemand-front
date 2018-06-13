@@ -7,7 +7,7 @@ export async function getAllSolutions(userId) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'get',
-    url: URL1 + `/api/users/${userId}/solution_reqs`,
+    url: URL1 + `/users/${userId}/solution_reqs`,
     headers: {
       Authorization: access_token,
     },
@@ -27,7 +27,7 @@ export async function postSolution(data) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'post',
-    url: URL1 + '/api/solutions',
+    url: URL1 + '/solutions',
     headers: {
       Authorization: access_token,
     },
@@ -48,7 +48,7 @@ export async function getMySolutionDetail(userId, reqId) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'get',
-    url: URL1 + `/api/users/${userId}/solution_reqs/${reqId}`,
+    url: URL1 + `/users/${userId}/solution_reqs/${reqId}`,
     headers: {
       Authorization: access_token,
     },
@@ -68,7 +68,7 @@ export async function deleteMySolution(solutionId) {
   const access_token = Cookies.get('access_token');
   return axios({
     method: 'delete',
-    url: URL1 + `/api/solutions/${solutionId}`,
+    url: URL1 + `/solutions/${solutionId}`,
     headers: {
       Authorization: access_token,
     },

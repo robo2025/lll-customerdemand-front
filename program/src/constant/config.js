@@ -4,13 +4,13 @@
 * */
 
 // 单点登录URL
-export const URL = 'https://login.robo2025.com';
+export const URL = 'https://testlogin.robo2025.com';
 // export const URL = 'http://192.168.3.70:8011';
 
 // 网站内容接口URL
-export const URL1 = '//api-customerdemand.robo2025.com';
+export const URL1 = 'http://testapi.robo2025.com/customerdemand';
 
-export const UPLOAD_URL = '//api-common-service.robo2025.com';
+export const UPLOAD_URL = 'https://testapi.robo2025.com/common';
 
 // 验证登录接口URL
 export const LOGIN_URL = URL + '/server/authorize';

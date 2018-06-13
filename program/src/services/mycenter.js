@@ -12,7 +12,7 @@ export async function getSolutions(reqId) {
   const userId = window.sessionStorage.getItem('user_id');
   return axios({
     method: 'get',
-    url: URL1 + `/api/users/${userId}/reqs/${reqId}/solutions`,
+    url: URL1 + `/users/${userId}/reqs/${reqId}/solutions`,
     headers: {
       Authorization: access_token,
     },
@@ -33,7 +33,7 @@ export async function getMyReqSolution(reqId, solutionId) {
   const userId = window.sessionStorage.getItem('user_id');
   return axios({
     method: 'get',
-    url: URL1 + `/api/users/${userId}/reqs/${reqId}/solutions/${solutionId}`,
+    url: URL1 + `/users/${userId}/reqs/${reqId}/solutions/${solutionId}`,
     headers: {
       Authorization: access_token,
     },
